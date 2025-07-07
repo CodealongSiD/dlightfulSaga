@@ -1,0 +1,24 @@
+# Node dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# MongoDB data dumps (if used)
+dump/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.vscode/
+.idea/
+
+# Temporary uploads
+uploads/

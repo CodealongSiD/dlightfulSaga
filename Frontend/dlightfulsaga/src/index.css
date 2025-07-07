@@ -1,0 +1,33 @@
+/* Theme tokens */
+:root {
+  --color-background: oklch(37.8% 0.077 168.94);      /* Royal Green */
+  --color-text: oklch(87.111% 0.00555 286.025);
+  --color-gold: oklch(82.8% 0.189 84.429);
+
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+}
+
+@import "tailwindcss";
+
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+/* Global base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+}
+
+p,a,li,ul,ol {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--color-gold);
+}
