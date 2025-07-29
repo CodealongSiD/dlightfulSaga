@@ -28,9 +28,9 @@ const Navbar = () => {
 
       <ul className={`${mobileMenuClass}`}>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/ProductListPage">Books</Link></li>
-        <li><Link to="/CheckoutPage">Cart</Link></li>
-        <li><Link to="/LoginPage">Login</Link></li>
+        <li><Link to="/product-list">Books</Link></li>
+        <li><Link to="/checkout">Cart</Link></li>
+        <li><Link to="/login">Login</Link></li>
       </ul>
     </nav>
   );

@@ -1,43 +1,99 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/useAuth";
+import axios from "../../utils/axiosInstance";
+import { isAxiosError } from "axios";
+import { Eye, EyeOff } from "lucide-react"; 
 
 const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/auth/login", {
+        email,
+        password,
+      });
+
+      const { user, token } = response.data;
+      login(user, token);
+      navigate("/");
+    } catch (err) {
+      if (isAxiosError(err)) {
+        console.error("Login failed", err.response?.data || err.message);
+        alert("Login failed. Please check your credentials.");
+      } else {
+        console.error("Unexpected error", err);
+        alert("An unexpected error occurred.");
+      }
+    }
+  };
+
   return (
     <section className="!bg-gray-1 !py-20 !dark:bg-dark !lg:py-[120px]">
       <div className="!container !mx-auto">
         <div className="!-mx-4 !flex !flex-wrap">
           <div className="!w-full !px-4">
-            <div className="!relative !mx-auto !max-w-[525px] !overflow-hidden !rounded-lg !bg-emerald-700 !px-10 !py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+            <div className="!relative !mx-auto !max-w-[525px] !overflow-hidden !rounded-lg !bg-neutral-50 !px-10 !py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
               <div className="!mb-10 !text-center !md:mb-16">
-                <h2 className="!text-3xl !text-[var(--color-gold)] !font-['Playfair_Display'] grow">
+                <h2 className="!text-3xl !text-[var(--color-gold)] !font-['Playfair_Display']">
                   DlighfulSaga
                 </h2>
               </div>
 
-              <form>
-                <InputBox type="email" name="email" placeholder="Email" />
-                <InputBox
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                />
+              <form onSubmit={handleLogin}>
+                <div className="!mb-6">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="!w-full !rounded-md !border !border-stroke !bg-zinc-200/50 !px-5 !py-3 !text-base !text-body-color !outline-none !focus:border-primary !focus-visible:shadow-none !dark:border-dark-3 !dark:text-white"
+                  />
+                </div>
+                <div className="!mb-6 relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="!w-full !rounded-md !border !border-stroke !bg-zinc-200/50 !px-5 !py-3 !text-base !text-body-color !outline-none !focus:border-primary !focus-visible:shadow-none !dark:border-dark-3 !dark:text-white pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
                 <div className="!mb-10">
                   <input
                     type="submit"
                     value="Sign In"
-                    className="!w-full !cursor-pointer !rounded-md !border !border-primary !bg-primary hover:!bg-white !px-5 !py-3 !text-base !font-medium !text-white hover:!text-black !transition hover:bg-opacity-90"
+                    className="!w-full !cursor-pointer !rounded-md !border !border-primary !bg-zinc-900 !px-5 !py-3 !text-base !font-medium !text-white "
                   />
                 </div>
               </form>
 
-              <p className="!mb-6 !text-base !text-secondary-color !dark:text-dark-7">
-                Connect With
+              <p className="!mb-6 !text-base !text-zinc-900">
+                OR
               </p>
 
               <ul className="-mx-2 mb-12 flex justify-between">
                 <li className="!w-full !px-2">
                   <a
                     href="#"
-                    className="flex items-center justify-center h-11 px-4 rounded-md bg-white border border-gray-300 gap-x-2 hover:bg-gray-100"
+                    className="flex items-center justify-center h-11 px-4 rounded-md !border !border-neutral-800 bg-white gap-x-2 hover:bg-gray-100"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -70,16 +126,16 @@ const Login = () => {
               </ul>
 
               <Link
-                to="/ForgotPassword"
-                className="!my-2 !mt-8 !inline-block !text-base !text-dark hover:text-primary hover:underline dark:text-white"
+                to="/forgot-password"
+                className="!my-2 !mt-8 !inline-block !text-base !text-zinc-900 hover:text-primary !font-semibold"
               >
                 Forgot Password?
               </Link>
-              <p className="!text-base !text-body-color !dark:text-dark-6">
+              <p className="!text-base !text-zinc-900 !dark:text-zinc-900">
                 <span className="!pr-0.5">Not a member yet?</span>
                 <Link
-                  to="/Signup"
-                  className="!ml-1 !mt-3 !text-primary hover:underline"
+                  to="/signup"
+                  className="!ml-1 !mt-3 !text-zinc-900  hover:underline !font-bold"
                 >
                   Sign Up
                 </Link>
@@ -93,22 +149,3 @@ const Login = () => {
 };
 
 export default Login;
-
-type InputBoxProps = {
-  type: string;
-  placeholder: string;
-  name: string;
-};
-
-const InputBox = ({ type, placeholder, name }: InputBoxProps) => {
-  return (
-    <div className="!mb-6">
-      <input
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        className="!w-full !rounded-md !border !border-stroke !bg-zinc-200/50 !px-5 !py-3 !text-base !text-body-color !outline-none !focus:border-primary !focus-visible:shadow-none !dark:border-dark-3 !dark:text-white"
-      />
-    </div>
-  );
-};
