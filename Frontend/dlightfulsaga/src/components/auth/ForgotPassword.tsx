@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../context/axiosInstance";
 import { AxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-hot-toast";

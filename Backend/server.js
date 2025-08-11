@@ -2,7 +2,13 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const cors = require("cors"); 
-const authRoutes = require("./routes/authRoutes");
+const path = require('path');
+const authRoutes = require('./routes/authRoutes')
+const bookRoutes = require('./routes/bookRoutes');
+const cartRoutes = require("./routes/cartRoutes");
+const paymentRoutes = require('./routes/paymentRoutes');
+const orderRoutes = require("./routes/orderRoutes");
+
 
 // Load environment variables
 dotenv.config();
@@ -10,20 +16,27 @@ dotenv.config();
 // Connect to MongoDB
 connectDB();
 
+// Initialize Express app
 const app = express();
 
-// ✅ Enable CORS for frontend port
+// Middleware: Enable CORS for frontend port
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
 }));
 
-// Middleware to parse JSON
+// Middleware: Parse incoming JSON
 app.use(express.json());
 
-// Routes
+// Route mounting
 app.use("/api/auth", authRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/cart", cartRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use("/api/orders", orderRoutes);
 
+// Serve uploads folder as static
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Root route
 app.get("/", (req, res) => {

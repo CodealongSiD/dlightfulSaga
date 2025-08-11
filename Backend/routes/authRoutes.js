@@ -23,6 +23,11 @@ router.get("/protected", requireAuth, (req, res) => {
   });
 });
 
+// ✅ Get logged-in user's data
+router.get("/me", requireAuth, (req, res) => {
+  res.status(200).json(req.user);
+});
+
 module.exports = router;
 // This code defines the authentication routes for user signup, login, forgot password, and reset password.
 // It uses Express.js to create a router and maps HTTP POST requests to the corresponding controller functions

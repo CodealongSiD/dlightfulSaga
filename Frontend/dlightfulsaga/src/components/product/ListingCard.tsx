@@ -1,51 +1,75 @@
-const ListingCard = () => {
+import { useState, type FC } from "react";
+import { Link } from "react-router-dom";
+import type { Book } from "@/context/Book";
+import { Heart } from "lucide-react";
+import { AxiosError } from "axios";
+import axios from "@/context/axiosInstance";
+import { toast } from "react-hot-toast";
+
+
+interface Props {
+  book: Book;
+}
+
+const ListingCard: FC<Props> = ({ book }) => {
+
+  const [added, setAdded] = useState(false);
+
+  const handleAddToCart = async (book: Book) => {
+  try {
+    const res = await axios.post("/cart", {
+      bookId: book._id,
+    });
+
+    toast.success("Book added to cart!" + res.data.message);
+    setAdded(true);
+  } catch (err: unknown) {
+  const axiosError = err as AxiosError;
+
+  if (axiosError.response?.status === 409) {
+    toast.error("Book already in cart!");
+  } else {
+    toast.error("Failed to add to cart.");
+    console.error(axiosError);
+  }
+  }
+  };
   return (
-    <div className="max-w-sm mx-auto !p-2">
-      <a href="#" className="group relative block overflow-hidden">
-        <button className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-emerald-900 transition hover:text-gray-900">
+    <div className="flex flex-col rounded-md border border-gray-100 bg-zinc-800 hover:!bg-zinc-700 p-2 shadow-sm max-w-sm mx-auto">
+      {/* Image and wishlist */}
+      <div className="relative w-full overflow-hidden rounded-md">
+        {/* ✅ Clickable Image */}
+        <Link to={`/product/${book._id}`}>
+          <img
+            src={book.coverImage}
+            alt={book.title}
+            className="h-64 w-full object-contain bg-zinc-100 !transition !duration-500 hover:!scale-105 sm:h-72"
+          />
+        </Link>
+
+        <button className="absolute right-3 top-3 !z-10 !rounded-full !bg-zinc-100 !p-1.5 !text-emerald-900 !transition hover:!text-gray-900">
           <span className="sr-only">Wishlist</span>
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-            />
-          </svg>
+          <Heart className="w-4 h-4" strokeWidth={1.5} />
         </button>
+      </div>
 
-        <img
-          src="https://images.unsplash.com/photo-1599481238640-4c1288750d7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2664&q=80"
-          alt=""
-          className="!h-64 !w-full !object-cover transition duration-500 group-hover:scale-105 sm:h-72"
-        />
-
-        <div className="relative border border-gray-100 bg-white !p-1.5">
-          <span className="bg-yellow-400 !ml-2 !px-2 !py-1.5 !text-xs !font-medium !whitespace-nowrap !text-white">
-            {" "}
-            New{" "}
-          </span>
-
-          <h3 className="!mt-4 !ml-2 !text-lg !font-medium !text-[var(--color-gold)]">
-            Robot Toy
+      {/* Book Info */}
+      <div className="flex flex-col justify-between flex-1 gap-2 !mt-2 !px-4">
+        {/* ✅ Clickable Title */}
+        <Link to={`/product/${book._id}`}>
+          <h3 className="text-[var(--color-gold)] font-semibold text-base leading-snug line-clamp-2 hover:underline">
+            {book.title}
           </h3>
+        </Link>
 
-          <p className="!mt-1.5 !pl-2 !text-sm !text-gray-900">$14.99</p>
+        <p className="!text-zinc-100 text-sm">₹{book.price}</p>
 
-          <form className="!mt-4 !p-2 text-amber-50">
-            <button className="block w-full !rounded-sm !bg-yellow-400 !text-sm md:text-md !text-gray-900 !font-medium !transition !hover:scale-105">
-              Add to Cart
-            </button>
-          </form>
-        </div>
-      </a>
+        <button className="!my-1.5 w-full !rounded-sm !bg-yellow-300/80 !py-1 text-sm font-medium text-gray-900 !mb-3 !transition hover:scale-[1.02]"
+        onClick={() => handleAddToCart(book)}
+        >
+          {added ? "Added" : "Add to Cart"}
+        </button>
+      </div>
     </div>
   );
 };

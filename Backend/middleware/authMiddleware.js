@@ -15,8 +15,11 @@ const requireAuth = async (req, res, next) => {
     req.user = await User.findById(id).select("-password");
     next();
   } catch (err) {
-    res.status(401).json({ error: "Request is not authorized" });
+  if (err.name === "TokenExpiredError") {
+    return res.status(401).json({ error: "Token expired, please log in again" });
   }
+  res.status(401).json({ error: "Request is not authorized" });
+}
 };
 
 module.exports = requireAuth;

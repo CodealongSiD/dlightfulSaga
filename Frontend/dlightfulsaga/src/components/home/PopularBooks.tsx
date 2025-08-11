@@ -1,71 +1,48 @@
-import ProductCard from "@/components/product/ProductCard";
+import { useNavigate } from "react-router-dom";
+import type { Book } from "@/context/Book";
+// src/components/home/PopularBooks.tsx
 
-const dummyBooks = [
-  {
-    id: 1,
-    title: "The Wandering Flame",
-    author: "Aurelia Nyx",
-    price: 399,
-    image: "https://via.placeholder.com/300x400?text=Book+1",
-    rating: 4.9,
-  },
-  {
-    id: 2,
-    title: "Echoes of the Hollow",
-    author: "Lioren Vale",
-    price: 299,
-    image: "https://via.placeholder.com/300x400?text=Book+2",
-    rating: 4.9,
-  },
-  {
-    id: 3,
-    title: "Chronicles of Dust",
-    author: "Elira Frost",
-    price: 499,
-    image: "https://via.placeholder.com/300x400?text=Book+3",
-    rating: 4.8,
-  },
-  {
-    id: 4,
-    title: "The Forgotten Tome",
-    author: "Cassian Ember",
-    price: 349,
-    image: "https://via.placeholder.com/300x400?text=Book+4",
-    rating: 4.7,
-  },
+interface PopularBooksProps {
+  books: Book[];
+}
 
-  {
-    id: 5,
-    title: "The Forgotten Tome: Lana Lost",
-    author: "Cassian Ember",
-    price: 249,
-    image: "https://via.placeholder.com/300x400?text=Book+5",
-    rating: 4.6,
-  },
+const PopularBooks = ({ books }: PopularBooksProps) => {
+  const navigate = useNavigate();
 
-  {
-    id: 6,
-    title: "The Forgotten Tome: Entrailed",
-    author: "Cassian Ember",
-    price: 449,
-    image: "https://via.placeholder.com/300x400?text=Book+6",
-    rating: 4.5,
-  },
-
-];
-
-const PopularBooks = () => {
   return (
-    <section id="popular" className="!py-16 !px-4 !sm:px-8 !bg-[--color-bg] !text-[--color-text]">
-      <h2 className="!text-3xl !sm:text-4xl !font-[--font-serif] !text-[--color-gold] !mb-10 !text-center">
-        Popular Books
-      </h2>
-      <div className="!grid !grid-cols-1 !sm:grid-cols-2 !md:grid-cols-3 !lg:grid-cols-4 !gap-6 !p-2 !max-w-7xl !mx-auto">
-        {dummyBooks.map((book) => (
-          <ProductCard key={book.id} {...book}/>
-        ))}
+    <section className="!w-full !px-6 !py-10">
+  <h2 className="!text-xl sm:!text-2xl md:!text-3xl !font-semibold !mb-6 !text-white lg:!text-center lg:!pr-150">
+    ⭐ Popular Books
+  </h2>
+  
+
+  <div className="!flex !flex-col !space-y-6 !gap-4">
+    {books.map((book) => (
+      <div
+        key={book._id}
+        onClick={() => navigate(`/product/${book._id}`)}
+        className="!w-full !max-w-4xl !mx-auto !flex !flex-col sm:!flex-row !bg-zinc-800 hover:!bg-white/20 text-white rounded-xl overflow-hidden !border !border-white/20 cursor-pointer transition duration-200"
+      >
+        <img
+          src={book.coverImage}
+          alt={book.title}
+          className="w-full sm:w-1/3 h-64 sm:h-auto object-cover rounded-l-xl"
+        />
+
+        <div className="flex flex-col justify-top !p-6 text-left w-full sm:w-2/3 !pl-2 sm:!pl-6">
+          <h3 className="!text-2xl sm:!text-3xl !font-serif !font-bold !mb-2">
+            {book.title}
+          </h3>
+          <p className="!text-md sm:!text-lg !text-[--color-gold] !font-medium">
+            Author: {book.author}
+          </p>
+          <p className="!text-sm !italic !mt-3">✨ Popular Choice</p>
+        </div>
       </div>
-    </section>
+    ))}
+  </div>
+</section>
+
   );
 };
 

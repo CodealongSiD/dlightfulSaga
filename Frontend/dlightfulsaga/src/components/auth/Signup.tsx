@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { validateName, validateEmail, validatePassword, validateConfirmPassword } from "../../utils/validator";
+import { validateName, validateEmail, validatePassword, validateConfirmPassword } from "../../context/validator";
 import { isAxiosError } from "axios";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../context/axiosInstance";
 import { useAuth } from "../../context/useAuth";
 import { Eye, EyeOff, Copy, Check } from "lucide-react";
 import { toast } from "react-hot-toast";

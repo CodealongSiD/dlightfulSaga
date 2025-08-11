@@ -1,8 +1,11 @@
-import OrderSummary from "@/components/checkout/OrderSummary";
+import Cart from "@/components/checkout/Cart";
 
 const CheckoutPage = () => {
     return(
-        <OrderSummary/>
+        <>
+        <Cart/>
+        </>
+        
     );
 };
 
