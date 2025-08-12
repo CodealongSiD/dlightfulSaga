@@ -178,7 +178,7 @@ const Signup = () => {
         </form>
 
         {showToast && (
-            <div className="!mt-6 !bg-white !px-4 !py-3 !w-[300px] !border !border-green-200 !rounded-lg !shadow-md !text-left">
+            <div className="!mt-6 !ml-12 !bg-white !px-4 !py-3 !w-[300px] !border !border-green-200 !rounded-lg !shadow-md !text-left">
               <h2 className="!text-lg !font-semibold !text-green-700 !mb-2">
                 Signup Successful
               </h2>
