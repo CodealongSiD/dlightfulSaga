@@ -20,8 +20,19 @@ connectDB();
 const app = express();
 
 // Middleware: Enable CORS for frontend port
+const allowedOrigins = [
+  "http://localhost:5173",                // local dev
+  "https://dlightful-saga.vercel.app"     // production frontend
+];
+
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 
