@@ -33,7 +33,7 @@ const Navbar = () => {
     flex-col items-start 
     absolute top-full left-0 w-full md:w-auto
     bg-emerald-900 !p-3 
-    z-10 
+    z-12 
     md:flex md:static md:flex-row md:items-center md:justify-end 
     gap-6 font-[--font-sans]
   `.trim();

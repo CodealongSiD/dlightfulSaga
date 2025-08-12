@@ -35,20 +35,20 @@ const Orders = () => {
           {books.map((book) => (
             <div
               key={book._id}
-              className="!flex !items-center !gap-4 !p-4 !rounded-xl !shadow"
+              className="!flex !items-center !gap-4 !p-4 !rounded-xl !shadow !flex-col sm:!flex-row"
             >
               <img
                 src={book.coverImage}
                 alt={book.title}
                 className="w-24 h-32 !object-cover !rounded"
               />
-              <div className="!flex-1">
+              <div className="!flex-1 !mt-2 sm:!mt-0">
                 <h2 className="!text-lg !font-medium">{book.title}</h2>
               </div>
               <a
                 href={`/ebooks/${book._id}.pdf`}
                 download
-                className="!bg-blue-600 !text-white !px-4 !py-2 !rounded !hover:bg-blue-700 !transition"
+                className="!bg-blue-600 !text-white !px-4 !py-2 !rounded !hover:bg-blue-700 !transition !mt-4 sm:!mt-0"
               >
                 Download
               </a>
