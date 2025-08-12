@@ -46,6 +46,10 @@ app.use("/api/cart", cartRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use("/api/orders", orderRoutes);
 
+// Serve uploads folder as static
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 // Middleware to prepend BASE_URL to any coverImage or file paths in responses
 app.use((req, res, next) => {
   const oldJson = res.json;
@@ -74,10 +78,6 @@ app.use((req, res, next) => {
   };
   next();
 });
-
-
-// Serve uploads folder as static
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Root route
 app.get("/", (req, res) => {
