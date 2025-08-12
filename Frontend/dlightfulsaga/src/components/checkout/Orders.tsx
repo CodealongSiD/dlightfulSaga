@@ -25,7 +25,7 @@ const Orders = () => {
   }, []);
 
   return (
-    <div className="!px-4 !py-8 !mb-12 xl:!ml-50">
+    <div className="!px-4 !py-8 !mb-12">
       <h1 className="!text-2xl !font-semibold !mb-6 !mt-8 ">Your Orders</h1>
 
       {books.length === 0 ? (
