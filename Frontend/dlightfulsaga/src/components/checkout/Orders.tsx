@@ -25,7 +25,7 @@ const Orders = () => {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto !px-4 !py-8 xl:!ml-50">
+    <div className="max-w-5xl mx-auto !px-4 !py-8 !mb-12 l:!ml-50">
       <h1 className="!text-2xl !font-semibold !mb-6 !mt-8 ">Your Orders</h1>
 
       {books.length === 0 ? (
